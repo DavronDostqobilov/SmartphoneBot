@@ -1,13 +1,33 @@
-import json
+from tinydb import TinyDB, Query
+
 class Cart:
     def __init__(self,cart_path:str):
-        self.cart_path = cart_path
+        self.db = TinyDB(cart_path, indent=4)
+        self.table = self.db.table('cart')
+        
+    def add(self,brend, doc_id, chat_id):
+        self.brend=brend
+        self.doc_id=doc_id
+        self.chat_id=chat_id
+        """
+        add card
+        data = {
+            'brand':brand,
+            'doc_id': doc_id,
+            chat_id: chat_id
+            }
+        """
+        data = {
+            'brand':self.brend,
+            'doc_id': self.doc_id,
+            'chat_id': self.chat_id
+        }
+        self.table.insert(data)
 
-    def add(self,brand,model_id):
-        pass
+    def get_cart(self, chat_id):
+        user = Query()
+        return self.table.search(user.chat_id == chat_id)
 
-    def save(self):
-        pass
-
-    def get_cart(self):
-        pass
+    def remove(self, chat_id):
+        user = Query()
+        self.table.remove(user.chat_id == chat_id)

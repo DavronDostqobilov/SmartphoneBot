@@ -15,7 +15,6 @@ from tinydb import TinyDB, Query
 
 TOKEN="6137784963:AAE5gShzTjlruzEvLkbJkIqzQs-tpWf0sjY"
 db = DB('db.json')
-# updater = Updater(TOKEN)
 get_product_data=Cart('cartdb.json')
 
 
@@ -246,33 +245,3 @@ def About_Us(update: Update, context: CallbackContext):
     button4 = InlineKeyboardButton(text = "🏘 Bosh Menu", callback_data="bosh_menu")
     keyboard = InlineKeyboardMarkup([[button1],[button2],[button3],[button4]])
     query.edit_message_text(text='About menu:', reply_markup=keyboard)
-
-
-
-
-updater = Updater(token=TOKEN)
-dp = updater.dispatcher
-dp.add_handler(CommandHandler("start", start))
-# 1
-dp.add_handler(CallbackQueryHandler(view_products, pattern="View Products"))
-dp.add_handler(CallbackQueryHandler(get_product, pattern="brend_"))
-dp.add_handler(CallbackQueryHandler(next_product, pattern="nextright"))
-dp.add_handler(CallbackQueryHandler(view_products, pattern="view_products"))
-dp.add_handler(CallbackQueryHandler(add_card, pattern="addcard_"))
-dp.add_handler(CallbackQueryHandler(get_phone, pattern="product_"))
-
-
-# 2
-dp.add_handler(CallbackQueryHandler(View_Cart, pattern="View Cart"))
-
-# 3
-dp.add_handler(CallbackQueryHandler(Contact_Us, pattern="Contact Us"))
-dp.add_handler(CallbackQueryHandler(phone_num, pattern="Phone number"))
-dp.add_handler(CallbackQueryHandler(address, pattern="Address"))
-dp.add_handler(CallbackQueryHandler(location, pattern="Location"))
-dp.add_handler(CallbackQueryHandler(email, pattern="Email"))
-# 4
-dp.add_handler(CallbackQueryHandler(About_Us, pattern="About Us"))
-dp.add_handler(CallbackQueryHandler(menu, pattern="bosh_menu"))
-updater.start_polling()
-updater.idle()
