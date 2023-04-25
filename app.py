@@ -4,7 +4,7 @@ from telegram.ext import Dispatcher, Updater, MessageHandler, CommandHandler, Fi
 import os
 from db import DB
 import telegram
-from bot import start,menu,view_products,get_product,next_product,get_phone,add_card,remove_product,View_Cart,Contact_Us,phone_num,address,location,email,About_Us
+from bot import start,menu,view_products,get_product,next_product,get_phone,add_card,remove_product,View_Cart,Contact_Us,phone_num,address,location,email,About_Us,see_products,order,clear_cart
 TOKEN = "6137784963:AAE5gShzTjlruzEvLkbJkIqzQs-tpWf0sjY"
 
 bot = telegram.Bot(TOKEN)
@@ -27,6 +27,10 @@ def home():
 
     # 2
     dp.add_handler(CallbackQueryHandler(View_Cart, pattern="View Cart"))
+    dp.add_handler(CallbackQueryHandler(see_products, pattern="Cart"))
+    dp.add_handler(CallbackQueryHandler(View_Cart, pattern="bosh_view"))
+    dp.add_handler(CallbackQueryHandler(order, pattern="Order"))
+    dp.add_handler(CallbackQueryHandler(clear_cart, pattern="Clear cart"))
 
     # 3
     dp.add_handler(CallbackQueryHandler(Contact_Us, pattern="Contact Us"))

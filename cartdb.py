@@ -6,22 +6,12 @@ class Cart:
         self.table = self.db.table('cart')
         
     def add(self,brend, doc_id, chat_id):
-        self.brend=brend
-        self.doc_id=doc_id
-        self.chat_id=chat_id
-        """
-        add card
         data = {
-            'brand':brand,
+            'brand':brend,
             'doc_id': doc_id,
-            chat_id: chat_id
-            }
-        """
-        data = {
-            'brand':self.brend,
-            'doc_id': self.doc_id,
-            'chat_id': self.chat_id
+            'chat_id': chat_id
         }
+        print(data)
         self.table.insert(data)
 
     def get_cart(self, chat_id):

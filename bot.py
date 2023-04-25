@@ -171,7 +171,7 @@ def add_card(update, context):
     print(doc_id)
     phone = db.getPhone(brend, int(doc_id))
     print(phone)
-    Cart.add(brend,doc_id,chat_id)
+    get_product_data.add(brend,doc_id,chat_id)
     query.answer("Done✅")
 
 def remove_product(update, context):
@@ -191,7 +191,42 @@ def View_Cart(update: Update, context: CallbackContext):
     button4 = InlineKeyboardButton(text = "🏘 Bosh Menu", callback_data="bosh_menu")
     keyboard = InlineKeyboardMarkup([[button1,button2],[button3,button4]])
     query.edit_message_text(text='Cart menu:', reply_markup=keyboard)
-
+def see_products(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    products=get_product_data.get_cart(chat_id=chat_id)
+    if products!=[]:
+        Total=0
+        k=0
+        text='🛒Xaridlar:\n'
+        for i in products:
+            k+=1
+            brand=i['brand']
+            doc_id=i['doc_id']
+            phone=db.getPhone(brend=brand,idx=doc_id)
+            Total+=phone['price']
+            text+=f"{k}. {phone['name']}  Narxi: {phone['price']}\n"
+        text+=f"Jami: {Total}"    
+        chat_id = query.message.chat.id
+        button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
+        keyboard=InlineKeyboardMarkup([[button4]])
+        bot.sendMessage(chat_id=chat_id, text=text,reply_markup=keyboard)
+    else:
+        button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
+        keyboard=InlineKeyboardMarkup([[button4]])
+        bot.sendMessage(chat_id=chat_id, text='Savat Bo`sh\n',reply_markup=keyboard)
+def order(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    query.answer('Buyurtmangiz yuborildi🚀')
+def clear_cart(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    get_product_data.remove(chat_id=chat_id)
+    query.answer('Cart tozalandi')
 
 
     

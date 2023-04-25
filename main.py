@@ -164,20 +164,22 @@ def get_phone(update, context):
 def add_card(update, context):
     query = update.callback_query
     data = query.data.split('_')
-    brend=data[1]
-    doc_id=data[-1]
     chat_id = query.message.chat.id
-    print(type(chat_id))
-    print(brend)
-    print(doc_id)
+    textt,brend,doc_id=data
+    # print(chat_id)
+    # print(brend)
+    # print(doc_id)
     phone = db.getPhone(brend, int(doc_id))
-    print(phone)
-    Cart.add(brend,doc_id,chat_id)
+    # print(phone)
+    get_product_data.add(brend=brend,doc_id=doc_id,chat_id=chat_id)
     query.answer("Done✅")
 
 def remove_product(update, context):
     query = update.callback_query
-    query.answer("Removed")
+    bot = context.bot
+    chat_id = query.message.chat.id
+    bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
+    query.answer('deleted')
 
 
 
@@ -193,9 +195,42 @@ def View_Cart(update: Update, context: CallbackContext):
     keyboard = InlineKeyboardMarkup([[button1,button2],[button3,button4]])
     query.edit_message_text(text='Cart menu:', reply_markup=keyboard)
 
-
-
-    
+def see_products(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    products=get_product_data.get_cart(chat_id=chat_id)
+    if products!=[]:
+        Total=0
+        k=0
+        text='🛒Xaridlar:\n'
+        for i in products:
+            k+=1
+            brand=i['brand']
+            doc_id=i['doc_id']
+            phone=db.getPhone(brend=brand,idx=doc_id)
+            Total+=phone['price']
+            text+=f"{k}. {phone['name']}  Narxi: {phone['price']}\n"
+        text+=f"Jami: {Total}"    
+        chat_id = query.message.chat.id
+        button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
+        keyboard=InlineKeyboardMarkup([[button4]])
+        bot.sendMessage(chat_id=chat_id, text=text,reply_markup=keyboard)
+    else:
+        button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
+        keyboard=InlineKeyboardMarkup([[button4]])
+        bot.sendMessage(chat_id=chat_id, text='Savat Bo`sh\n',reply_markup=keyboard)
+def order(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    query.answer('Buyurtmangiz yuborildi🚀')
+def clear_cart(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    get_product_data.remove(chat_id=chat_id)
+    query.answer('Cart tozalandi')
 
 # 3-bo`lim ///////////////////////////////////////////////////////////////////////////////////
 
@@ -246,9 +281,25 @@ def About_Us(update: Update, context: CallbackContext):
     button4 = InlineKeyboardButton(text = "🏘 Bosh Menu", callback_data="bosh_menu")
     keyboard = InlineKeyboardMarkup([[button1],[button2],[button3],[button4]])
     query.edit_message_text(text='About menu:', reply_markup=keyboard)
-
-
-
+def Company_Information(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    chat_id = query.message.chat.id
+    text="""
+    Telefon savdo botimizga tushunmagan joylaringizga quidagi textda javob topasiz
+    lhjkmnhfdsfh,mnhbgfdsa
+    dfbfgbdghngh
+    hgdhn
+    dghngh
+    nghndgh
+    nhgddddddddd edj greeeeeeeeeeeeeeeee gergerg erg argekrga
+    gergghaergaerghuaerguaergiuaergbrg
+    gergaegrghlaegargbgrg
+    ergjaeora;geragregrghrg
+    """
+    button4 = InlineKeyboardButton(text ="Orqaga", callback_data="Orqaga")
+    keyboard=InlineKeyboardMarkup([[button4]])
+    bot.sendMessage(chat_id=chat_id, text=text,reply_markup=keyboard)
 
 updater = Updater(token=TOKEN)
 dp = updater.dispatcher
@@ -260,10 +311,17 @@ dp.add_handler(CallbackQueryHandler(next_product, pattern="nextright"))
 dp.add_handler(CallbackQueryHandler(view_products, pattern="view_products"))
 dp.add_handler(CallbackQueryHandler(add_card, pattern="addcard_"))
 dp.add_handler(CallbackQueryHandler(get_phone, pattern="product_"))
+dp.add_handler(CallbackQueryHandler(remove_product, pattern="removeproduct"))
 
 
 # 2
 dp.add_handler(CallbackQueryHandler(View_Cart, pattern="View Cart"))
+dp.add_handler(CallbackQueryHandler(see_products, pattern="Cart"))
+dp.add_handler(CallbackQueryHandler(View_Cart, pattern="bosh_view"))
+dp.add_handler(CallbackQueryHandler(order, pattern="Order"))
+dp.add_handler(CallbackQueryHandler(clear_cart, pattern="Clear cart"))
+
+
 
 # 3
 dp.add_handler(CallbackQueryHandler(Contact_Us, pattern="Contact Us"))
@@ -274,5 +332,8 @@ dp.add_handler(CallbackQueryHandler(email, pattern="Email"))
 # 4
 dp.add_handler(CallbackQueryHandler(About_Us, pattern="About Us"))
 dp.add_handler(CallbackQueryHandler(menu, pattern="bosh_menu"))
+dp.add_handler(CallbackQueryHandler(Company_Information, pattern="Company Information"))
+dp.add_handler(CallbackQueryHandler(About_Us, pattern="Orqaga"))
+
 updater.start_polling()
 updater.idle()
