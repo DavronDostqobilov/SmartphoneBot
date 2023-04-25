@@ -8,7 +8,7 @@ from bot import start,menu,view_products,get_product,next_product,get_phone,add_
 TOKEN = "6137784963:AAE5gShzTjlruzEvLkbJkIqzQs-tpWf0sjY"
 
 bot = telegram.Bot(TOKEN)
-db = DB('db.json')
+db = DB('SmartphoneBot/db.json')
 app = Flask(__name__)
 @app.route("/webhook", methods=["POST"])
 def home():

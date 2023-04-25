@@ -14,8 +14,8 @@ from cartdb import Cart
 from tinydb import TinyDB, Query
 
 TOKEN="6137784963:AAE5gShzTjlruzEvLkbJkIqzQs-tpWf0sjY"
-db = DB('db.json')
-get_product_data=Cart('cartdb.json')
+db = DB('SmartphoneBot/db.json')
+get_product_data=Cart('SmartphoneBot/cartdb.json')
 
 
 def start(update: Update, context: CallbackContext):
