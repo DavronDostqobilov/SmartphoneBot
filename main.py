@@ -209,7 +209,7 @@ def see_products(update: Update, context: CallbackContext):
             brand=i['brand']
             doc_id=i['doc_id']
             phone=db.getPhone(brend=brand,idx=doc_id)
-            Total+=phone['price']
+            Total+=int(phone['price'])
             text+=f"{k}. {phone['name']}  Narxi: {phone['price']}\n"
         text+=f"Jami: {Total}"    
         chat_id = query.message.chat.id

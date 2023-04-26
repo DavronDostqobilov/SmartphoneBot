@@ -146,9 +146,7 @@ def get_phone(update, context):
     query = update.callback_query
     data = query.data.split('_')
     text, brend, doc_id = data
-    print(data)
     phone = db.getPhone(brend, int(doc_id))
-    print(phone)
     price = phone['price']
     ram = phone['RAM']
     memory = phone['memory']
@@ -166,18 +164,16 @@ def add_card(update, context):
     brend=data[1]
     doc_id=data[-1]
     chat_id = query.message.chat.id
-    print(type(chat_id))
-    print(brend)
-    print(doc_id)
     phone = db.getPhone(brend, int(doc_id))
-    print(phone)
     get_product_data.add(brend,doc_id,chat_id)
     query.answer("Done✅")
 
 def remove_product(update, context):
     query = update.callback_query
-    query.answer("Removed")
-
+    bot = context.bot
+    chat_id = query.message.chat.id
+    bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
+    query.answer('deleted')
 
 
 # 2-bo`lim ////////////////////////////////////////////////////////////////////////////////////

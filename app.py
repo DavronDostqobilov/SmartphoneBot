@@ -23,6 +23,8 @@ def home():
     dp.add_handler(CallbackQueryHandler(view_products, pattern="view_products"))
     dp.add_handler(CallbackQueryHandler(add_card, pattern="addcard_"))
     dp.add_handler(CallbackQueryHandler(get_phone, pattern="product_"))
+    dp.add_handler(CallbackQueryHandler(remove_product, pattern="removeproduct"))
+
 
 
     # 2
