@@ -200,7 +200,7 @@ def see_products(update: Update, context: CallbackContext):
             k+=1
             brand=i['brand']
             doc_id=i['doc_id']
-            phone=db.getPhone(brend=brand,idx=doc_id)
+            phone=db.getPhone(brend=brand,idx=int(doc_id))
             Total+=int(phone['price'])
             text+=f"{k}. {phone['name']}  Narxi: {phone['price']}\n"
         text+=f"Jami: {Total}"    
