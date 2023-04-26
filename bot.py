@@ -207,11 +207,11 @@ def see_products(update: Update, context: CallbackContext):
         chat_id = query.message.chat.id
         button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
         keyboard=InlineKeyboardMarkup([[button4]])
-        bot.sendMessage(chat_id=chat_id, text=text,reply_markup=keyboard)
+        query.edit_message_text(text=text,reply_markup=keyboard)
     else:
         button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
         keyboard=InlineKeyboardMarkup([[button4]])
-        bot.sendMessage(chat_id=chat_id, text='Savat Bo`sh\n',reply_markup=keyboard)
+        query.edit_message_text(text='Savat Bo`sh\n',reply_markup=keyboard)
 def order(update: Update, context: CallbackContext):
     query = update.callback_query
     bot = context.bot
