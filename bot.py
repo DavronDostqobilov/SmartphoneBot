@@ -193,7 +193,7 @@ def see_products(update: Update, context: CallbackContext):
     chat_id = query.message.chat.id
     products=get_product_data.get_cart(chat_id=chat_id)
     if products!=[]:
-        Total=0
+        #Total=0
         k=0
         text='🛒Xaridlar:\n'
         for i in products:
@@ -201,9 +201,9 @@ def see_products(update: Update, context: CallbackContext):
             brand=i['brand']
             doc_id=i['doc_id']
             phone=db.getPhone(brend=brand,idx=doc_id)
-            Total+=phone['price']
+            #Total+=phone['price']
             text+=f"{k}. {phone['name']}  Narxi: {phone['price']}\n"
-        text+=f"Jami: {Total}"    
+        #text+=f"Jami: {Total}"    
         chat_id = query.message.chat.id
         button4 = InlineKeyboardButton(text = "Orqaga", callback_data="bosh_view")
         keyboard=InlineKeyboardMarkup([[button4]])
